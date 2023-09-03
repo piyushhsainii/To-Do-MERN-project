@@ -69,7 +69,7 @@ const isAuthenticated = async (req,res,next)=>{
 next()
 }
 
-const getProfile  = async (req,res)=>{
+const getProfile  = async (req,res)=>{   
     const {Token} = req.cookies
     const decode = jwt.verify(Token,process.env.SECRET_KEY)     
     req.user = await User.findById(decode)
