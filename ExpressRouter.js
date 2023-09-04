@@ -7,8 +7,9 @@ const userRouter = require("./routes/user.js")
 const TaskRouter = require("./routes/task.js")
  require('dotenv').config()
 const cors = require('cors')
-//connecting database 
 
+
+//connecting database 
 
 mongoose.connect(process.env.MODEL_URI).then(()=>{
     console.log('Datbase Connected')
