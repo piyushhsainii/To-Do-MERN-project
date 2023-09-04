@@ -21,7 +21,7 @@ const login = async (req,res)=>{
     console.log(req.cookies)
     res.status(201).cookie('Token', Token, {
         httpOnly: true,
-        SameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
+        sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
         secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true
     }).json({
         sucess: true,
@@ -47,7 +47,7 @@ const register = async(req,res)=>{
         res.status(201).cookie('Token',Token,{
             // expires: new Date(Date.now()*10000),
             maxAge:35000000,
-            SameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
+            sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
             secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true
         }).json({
             sucess:true,
@@ -85,7 +85,7 @@ const logout = (req,res)=>{
     if(Token) {
         res.cookie("Token",null,{
             expires: new Date(Date.now()),
-            SameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
+            sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
             secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true
         })
         res.send('User has been logged out')
