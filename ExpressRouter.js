@@ -5,13 +5,10 @@ const cookie = require('cookie-parser')
 const mongoose = require('mongoose')
 const userRouter = require("./routes/user.js")
 const TaskRouter = require("./routes/task.js")
-const {config} = require('dotenv')
+ require('dotenv').config()
 const cors = require('cors')
 //connecting database 
 
-config({
-    path:'./data/config.env'
-})
 
 mongoose.connect(process.env.MODEL_URI).then(()=>{
     console.log('Datbase Connected')
