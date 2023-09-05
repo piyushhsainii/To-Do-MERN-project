@@ -17,10 +17,12 @@ mongoose.connect(process.env.MODEL_URI).then(()=>{
 
 //using middleware to accept data from forms
 app.use(cors({
-    origin:"*",
+    origin:"http://localhost:5173",
     methods:["GET","POST","PUT","DELETE"],
     credentials:true 
 }))
+
+app.options('*', cors()); // Handle preflight requests for all routes
 
 
 app.use(express.json())
