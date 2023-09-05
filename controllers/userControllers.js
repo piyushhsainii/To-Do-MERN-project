@@ -7,53 +7,59 @@ const {User} = require('../models/userModels.js')
 
 }
 const login = async (req,res)=>{
+  const { email, password } = req.body;
+  
+      let user = await User.findOne({email}).select('+password');
+      if(!user){
+          return res.status(404).send('User doesnt exist')
+      }
+      const isMatch = await bcrypt.compare(password,user.password)
+      if(!isMatch){
+          return res.status(404).send('SAME ERROR')
+      }
+      const Token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY)
+      console.log(req.cookies)
+      res.status(201).cookie('Token', Token, {
+          httpOnly: true,
+          sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
+          secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true
+      }).json({
+          sucess: true,
+          message: 'Registered sucessfull'
+      })
+   }
+   const register = async(req,res)=>{
 
-    const {email,password} = req.body
-    let user = await User.findOne({email}).select('+password');
-    if(!user){
-        return res.status(404).send('User doesnt exist')
-    }
-    const isMatch = await bcrypt.compare(password,user.password)
-    if(!isMatch){
-        return res.status(404).send('SAME ERROR')
-    }
-    const Token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY)
-    console.log(req.cookies)
-    res.status(201).cookie('Token', Token, {
-        httpOnly: true,
-        sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
-        secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true
-    }).json({
-        sucess: true,
-        message: 'Registered sucessfull'
-    })
-}
-const register = async(req,res)=>{
-    const {name,email,password} = req.body
-    let user = await User.findOne({email})
+       console.log("getting req at register router");
+       const { name, email, password } = req.body;
+       console.log(name,email,password)
+       res.send({"status":"success"})
 
-    if(user){
-        return res.status(404).send(
-            'User already exists'
-        )
-        }
-        const HashedPassword = await bcrypt.hash(password, 10);
-         user = await User.create({
-            name,email, password:HashedPassword
-        })
+     console.log("getting req at register router");
+  //     const {name,email,password} = req.body
+    //   let user = await User.findOne({email})
 
-        const Token =  jwt.sign({_id:user._id},process.env.SECRET_KEY)
+    //   if(user){
+    //       return res.status(404).send(
+    //           'User already exists'
+    //       )
+    //       }
+    //       const HashedPassword = await bcrypt.hash(password, 10);
+    //        user = await User.create({
+    //           name,email, password:HashedPassword
+    //       })
 
-        res.status(201).cookie('Token',Token,{
-            // expires: new Date(Date.now()*10000),
-            maxAge:35000000,
-            sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
-            secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true
-        }).json({
-            sucess:true,
-            message:'Registered sucessfull'
-        })
-    
+    //       const Token =  jwt.sign({_id:user._id},process.env.SECRET_KEY)
+
+    //       res.status(201).cookie('Token',Token,{
+    //           // expires: new Date(Date.now()*10000),
+    //           maxAge:35000000,
+    //           sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
+    //           secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true
+    //       }).json({
+    //           sucess:true,
+    //           message:'Registered sucessfull'
+    //      })
 }
 
 const isAuthenticated = async (req,res,next)=>{

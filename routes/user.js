@@ -1,7 +1,7 @@
 const Express = require('express')
 const {getAllUsers,login,register,isAuthenticated,getProfile, logout} = require('../controllers/userControllers.js')
 const router = Express.Router();
- 
+
 
 router.get('/users/all', getAllUsers)
 
