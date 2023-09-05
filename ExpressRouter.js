@@ -16,11 +16,11 @@ mongoose.connect(process.env.MODEL_URI).then(()=>{
 })
 
 //using middleware to accept data from forms
-app.use(cors({
-    origin:"http://localhost:5173",
-    methods:["GET","POST","PUT","DELETE"],
-    credentials:true 
-}))
+// app.use(cors({
+//     origin:"http://localhost:5173",
+//     methods:["GET","POST","PUT","DELETE"],
+//     credentials:true 
+// }))
 
 app.options('*', cors()); // Handle preflight requests for all routes
 
@@ -30,13 +30,13 @@ app.use(cookie())
 app.use(express.urlencoded({extended:true}))
 
 
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL); // Replace with your frontend URL
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     res.setHeader('Access-Control-Allow-Credentials', 'true');
-//     next();
-// });
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL); // Replace with your frontend URL
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 
 //USING ROUTES
 app.use(userRouter);
