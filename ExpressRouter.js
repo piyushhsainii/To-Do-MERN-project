@@ -22,7 +22,7 @@ mongoose.connect(process.env.MODEL_URI).then(()=>{
 //     credentials:true 
 // }))
 
-app.options('http://localhost:5173', cors()); // Handle preflight requests for all routes
+
 
 
 app.use(express.json())
