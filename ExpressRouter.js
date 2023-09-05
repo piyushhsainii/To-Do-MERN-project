@@ -8,7 +8,7 @@ const TaskRouter = require("./routes/task.js")
  require('dotenv').config()
 const cors = require('cors')
 
-
+app.use(cors());
 //connecting database 
 
 mongoose.connect(process.env.MODEL_URI).then(()=>{
@@ -30,13 +30,13 @@ app.use(cookie())
 app.use(express.urlencoded({extended:true}))
 
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL); // Replace with your frontend URL
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    // res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL); // Replace with your frontend URL
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     res.setHeader('Access-Control-Allow-Credentials', 'true');
+//     next();
+// });
 
 //USING ROUTES
 app.use(userRouter);
