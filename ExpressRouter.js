@@ -5,8 +5,9 @@ const cookie = require('cookie-parser')
 const mongoose = require('mongoose')
 const userRouter = require("./routes/user.js")
 const TaskRouter = require("./routes/task.js")
- require('dotenv').config()
+require('dotenv').config()
 const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 
 
 //connecting database 
@@ -15,17 +16,15 @@ mongoose.connect(process.env.MODEL_URI).then(()=>{
     console.log('Datbase Connected')
 })
 
+// cors with options
+app.use(cors(corsOptions))
+
 //using middleware to accept data from forms
 
 app.use(express.json())
 app.use(cookie())
 app.use(express.urlencoded({extended:true}))
 
-app.use(cors({
-    origin:"*",
-    methods:["GET","POST","PUT","DELETE"],
-    credentials:true 
-}))
 
 // app.use((req, res, next) => {
 //     res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL); // Replace with your frontend URL
