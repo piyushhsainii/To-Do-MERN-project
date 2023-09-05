@@ -16,16 +16,17 @@ mongoose.connect(process.env.MODEL_URI).then(()=>{
 })
 
 //using middleware to accept data from forms
-
-app.use(express.json())
-app.use(cookie())
-app.use(express.urlencoded({extended:true}))
-
 app.use(cors({
     origin:"*",
     methods:["GET","POST","PUT","DELETE"],
     credentials:true 
 }))
+
+
+app.use(express.json())
+app.use(cookie())
+app.use(express.urlencoded({extended:true}))
+
 
 // app.use((req, res, next) => {
 //     res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL); // Replace with your frontend URL
