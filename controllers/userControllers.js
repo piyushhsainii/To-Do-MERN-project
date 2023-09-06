@@ -29,7 +29,6 @@ const login = async (req,res)=>{
     })
 }
 const register = async(req,res)=>{
-    res.send(console.log('request aarhi hai'))
     const {name,email,password} = req.body
     let user = await User.findOne({email})
 
