@@ -23,8 +23,6 @@ mongoose.connect(process.env.MODEL_URI).then(()=>{
 // }))
 
 
-
-
 app.use(express.json())
 app.use(cookie())
 app.use(express.urlencoded({extended:true}))
