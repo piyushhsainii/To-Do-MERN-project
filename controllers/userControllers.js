@@ -38,7 +38,8 @@ const register = async(req,res)=>{
             'User already exists'
         )
         }
-        const HashedPassword = await bcrypt.hash(password, 10);
+        const salt = await bcrypt.genSalt(10);
+        const HashedPassword = await bcrypt.hash(password, salt);
          user = await User.create({
             name,email, password:HashedPassword
         })
