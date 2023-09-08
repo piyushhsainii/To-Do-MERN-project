@@ -17,7 +17,7 @@ const login = async (req,res)=>{
         return res.status(404).send('Password dont Match')
     }
     const Token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY)
-    console.log("token",Token)
+    // console.log("token",Token)
     res.status(201).cookie('Token', Token, {
         maxAge: 15 * 60 * 1000,
         httpOnly:true,
@@ -74,6 +74,7 @@ next()
 
 const getProfile  = async (req,res)=>{   
     const {Token} = req.cookies
+    console.log(req.cookies, 'LMAO')
     const decode = jwt.verify(Token,process.env.SECRET_KEY)     
     req.user = await User.findById(decode)
     res.status(200).send(
@@ -84,7 +85,6 @@ const getProfile  = async (req,res)=>{
 
 const logout = (req, res) => {
     console.log(req.cookies);
-    
     // Calculate a past date (e.g., 1 millisecond ago)
     const pastDate = new Date(0);
 

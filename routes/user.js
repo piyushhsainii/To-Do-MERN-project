@@ -8,7 +8,7 @@ router.get('/users/all', getAllUsers)
 
 router.post('/register', register)  
 router.post('/login', login)  
-router.post('/logout',logout)
+router.get('/logout',logout)
 router.get('/getProfile',isAuthenticated,getProfile)
 
 // router.route('/userid/:id') //dynamic routes should be put in last 
