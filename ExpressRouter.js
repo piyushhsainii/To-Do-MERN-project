@@ -14,7 +14,7 @@ mongoose.connect(process.env.MODEL_URI).then(()=>{
     console.log('Datbase Connected')
 })
 
-app.use(cors({credentials: true, origin: true}));
+app.use(cors({credentials: true, origin: process.env.FRONTEND_URL}));
 
 // app.use((req, res, next) => {
 //     res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL); // Replace with your frontend URL
