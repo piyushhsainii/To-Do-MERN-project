@@ -77,10 +77,13 @@ const getProfile  = async (req,res)=>{
     console.log(req.cookies, 'LMAO')
     const decode = jwt.verify(Token,process.env.SECRET_KEY)     
     req.user = await User.findById(decode)
+
     res.status(200).send(
-        [req.user.name,
-        req.user.email]
-   )
+        [{
+            "user": req.user.name,
+            "email": req.user.email
+        }]
+    )
 }
 
 const logout = (req, res) => {
