@@ -19,7 +19,7 @@ const login = async (req,res)=>{
     const Token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY)
     // console.log("token",Token)
     res.status(201).cookie('Token', Token, {
-        maxAge: 15 * 60 * 1000,
+        maxAge: 15 * 60 * 10000000,
         httpOnly:true,
         // sameSite:'none',
         // secure:true
@@ -48,7 +48,7 @@ const register = async(req,res)=>{
         const Token =  jwt.sign({_id:user._id},process.env.SECRET_KEY)
         res.status(201).cookie('Token',Token,{
             httpOnly:true,
-            maxAge:35000000,
+            maxAge:350000000000,
             sameSite:process.env.NODE_ENV === "DEVELOPMENT"? 'lax' :'none',
             secure:process.env.NODE_ENV === "DEVELOPMENT"? false : true,
   
@@ -74,15 +74,14 @@ next()
 
 const getProfile  = async (req,res)=>{   
     const {Token} = req.cookies
-    console.log(req.cookies, 'LMAO')
     const decode = jwt.verify(Token,process.env.SECRET_KEY)     
     req.user = await User.findById(decode)
 
     res.status(200).send(
-        [{
+        {
             "user": req.user.name,
             "email": req.user.email
-        }]
+        }
     )
 }
 
@@ -96,7 +95,28 @@ const logout = (req, res) => {
         expires: pastDate, // Set the expiration date to a past date
         sameSite: process.env.NODE_ENV === "DEVELOPMENT" ? 'lax' : 'none',
         secure: process.env.NODE_ENV === "DEVELOPMENT" ? false : true,
-    }).json({ mess: 'User has been logged out' });
+    }).json(
+        [{ mess: 'User has been logged out' }]
+        );
 }
 
-module.exports = {getAllUsers,login,register,isAuthenticated,getProfile, logout,isAuthenticated}
+ const updateProfile = async (req, res) =>{
+    const task = await User.findById(req.params.id)
+    task.isCompleted = !task.isCompleted;
+
+    res.status(200).json({
+        sucess:true,
+        Mess:"Task has been updated"
+    })
+ } 
+ const deleteProfile = async (req, res) =>{
+    const task = await User.findById(req.params.id)
+        await task.deleteOne();
+
+    res.status(200).json({
+        sucess:true,
+        Mess:"Task has been deleted"
+    })
+ } 
+
+module.exports = {getAllUsers,login,register,isAuthenticated,getProfile, logout,isAuthenticated,updateProfile ,deleteProfile}

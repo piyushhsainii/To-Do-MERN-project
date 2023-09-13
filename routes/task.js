@@ -7,6 +7,6 @@ router.post('/new',isAuthenticated,newTask)
 router.get('/my',isAuthenticated,myTask)
 router.route('/:id')
 .put(isAuthenticated,updateTask)
-.delete(isAuthenticated,deleteTask)
+.delete(deleteTask)
 
 module.exports = router

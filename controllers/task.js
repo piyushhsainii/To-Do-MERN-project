@@ -8,7 +8,7 @@ const { User } = require("../models/userModels.js");
         if (!req.user) {
             return res.status(401).json({
                 success: false,
-                message: 'User not authenticated'
+                message: 'LOGIN FIRST'
             });
         }
 
@@ -40,15 +40,19 @@ res.json(task)
 }
 
 const updateTask = async (req,res)=>{
-    const {id} = req.params
-    console.log(id)
-    const task = await Task.findById(id);
-    task.isCompleted = !task.isCompleted
-    await task.save()
-    res.json({
-        sucess:true,
-        message:'DONE'
-    });
+    try {
+        const {id} = req.params
+        const task = await Task.findById(id);
+        console.log(task)
+        task.isCompleted = !task.isCompleted
+        await task.save()
+        res.json({
+            sucess:true,
+            message:'DONE'
+        });
+    } catch (error) {
+        console.log(error)
+    }
 
 }
 
@@ -56,7 +60,6 @@ const deleteTask = async(req,res)=>{
     const {id} =req.params;
     const task = await Task.findById(id)
     await task.deleteOne()
-    console.log(id)
     res.json({
         sucess:true,
         message:'DONE'
